@@ -10,22 +10,31 @@
     <div class="background-img">
         <div class="main-content-wrapper">
 
-            <div class="main-content-top">
-                <div class="whitespace"></div>
-                <img src="../resources/img/stemwijzer-logo.png" class="main-content-logo" alt="">
-                <a class="top-text1">Stemwijzer Tweede Kamer 2017</a><br><br>
-                <a class="top-text2">Test uw politieke voorkeur aan de hand van 30 stellingen</a><br><br><br><br><br>
+            <div id="homepage-content">
+                <div class="main-content-top">
+                    <div class="whitespace"></div>
+                    <img src="../resources/img/stemwijzer-logo.png" class="main-content-logo" alt="">
+                    <a class="top-text1">Stemwijzer Tweede Kamer 2017</a><br><br>
+                    <a class="top-text2">Test uw politieke voorkeur aan de hand van 30 stellingen</a><br><br><br><br><br>
+                    <i class="fas fa-universal-access fa-3x"></i>
+                    <a class="top-text3">Bekijk de toegankelijke versie voor mensen met een visuele beperking</a><br><br><br><br><br>
+                    <i class="fas fa-lock fa-3x"></i>
+                    <a class="top-text4">De stemwijzer maakt geen gebruik van cookies. Klik <span class="link-span">hier</span> voor de volledige privicy statement.</a>
+                    <br>
+                    <button id="start" type="button">Start</button>
+                </div>
+            </div>
 
-                <i class="fas fa-universal-access fa-3x"></i>
-                <a>Bekijk de toegankelijke versie voor mensen met een visuele beperking</a>
-                
-                <br><br><br><br><br>
-
-                <i class="fas fa-lock fa-3x"></i>
-                <a>De stemwijzer maakt geen gebruik van cookies. Klik hier voor de volledige privicy statement.</a>
+            <div id="questions-content">
+                <a id="title">Title</a><br><br>
+                <p>Er moet een bindend referendum komen, waarmee burgers door het parlement aangenomen wetten kunne tegenhouden</p>
 
 
-
+                <button id="btn-agree" type="button">Eens</button>
+                <button id="btn-none" type="button">Geen van beide</button>
+                <button id="btn-disagree" type="button">Oneens</button>
+                <button id="btn-skip" type="button">Sla deze vraag over </button><br><br>
+                <button id="terug" type="button">Terug</button>
 
             </div>
 
@@ -34,14 +43,22 @@
 
 
 
-
-
-
+            <div id="onclick-button">
+            </div>
 
 
 
 
         </div>
     </div>
+
+    <script src="../resources/script.js"></script>
+    <script src="http://stemwijzer.dvc-icta.nl/testdata.js"></script>
+
+
+<!---
+    <script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
+    <script src="http://stemwijzer.dvc-icta.nl/testdata.js"></script>
+-->
 </body>
 </html>
