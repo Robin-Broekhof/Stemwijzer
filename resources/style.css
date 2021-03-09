@@ -77,10 +77,6 @@ i {
     background-color: grey;
 }
 
-.btn-balk .blue-btn{
-    background-color: #3366cc;
-}
-
 
 #question-title {
     font-size: 26px;
@@ -95,10 +91,14 @@ i {
     width: 700px;
 }
 
-#btn-agree{
+#btn-agree {
     background-color: #00cc66;
 }
 
-#btn-disagree{
+#btn-disagree {
     background-color: #800000;
+}
+
+.blue-btn {
+    background-color: #003399 !important;
 }

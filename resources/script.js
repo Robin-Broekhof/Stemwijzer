@@ -10,6 +10,8 @@ function homepage(){        /** the js dom of the homepage page */
     document.getElementById("questions-content").style.display = "none"
 
     document.getElementById("start").onclick = questionsdom
+
+    revertClasses()
 }
 
 function questionsdom(){    /** the js dom of the questions page */
@@ -24,6 +26,7 @@ function loadquestions(){   /**loads in the question and keeps loading next ques
     document.getElementById("question-title").innerText = subjects[vraagcounter].title
     document.getElementById("question-element").innerText = subjects[vraagcounter].statement
 
+
     document.getElementById("btn-agree").onclick = function(){saveanswer("pro")};
     document.getElementById("btn-none").onclick = function(){saveanswer("none")};
     document.getElementById("btn-disagree").onclick = function(){saveanswer("contra")};
@@ -33,6 +36,11 @@ function loadquestions(){   /**loads in the question and keeps loading next ques
 }
 
 function saveanswer(answer){   /**  saves the answer into a variable */
+
+
+    
+    revertClasses()
+
     savedAnswers[vraagcounter] = answer
     console.log(savedAnswers)
     vraagcounter++
@@ -58,21 +66,58 @@ function questionback(){    /** functionality of the back button */
     }
     else{
         vraagcounter--
-        loadquestions()
+        rememberQuestion()
     }
 }
 
-funtion remember-question(){
-        var button-clicked
+function rememberQuestion(){
+        var question = savedAnswers[vraagcounter]
+        
+        if(question == "pro"){
+            document.getElementById("btn-agree").className = "blue-btn"
+            document.getElementById("btn-none").className = ""
+            document.getElementById("btn-disagree").className = ""
+            document.getElementById("btn-skip").className = ""
+        }
+
+        if(question == "none"){
+            document.getElementById("btn-agree").className = ""
+            document.getElementById("btn-none").className = "blue-btn"
+            document.getElementById("btn-disagree").className = ""
+            document.getElementById("btn-skip").className = ""
+        }
+
+        if(question == "contra"){
+            document.getElementById("btn-agree").className = ""
+            document.getElementById("btn-none").className = ""
+            document.getElementById("btn-disagree").className = "blue-btn"
+            document.getElementById("btn-skip").className = ""
+        }
+
+        if(question == "skipped"){
+            document.getElementById("btn-agree").className = ""
+            document.getElementById("btn-none").className = ""
+            document.getElementById("btn-disagree").className = ""
+            document.getElementById("btn-skip").className = "blue-btn"
+        }
+
+        loadquestions()
 }
 
+
+function revertClasses(){
+    document.getElementById("btn-agree").className = ""
+    document.getElementById("btn-none").className = ""
+    document.getElementById("btn-disagree").className = ""
+    document.getElementById("btn-skip").className = ""
+}
+
+
+
+
+
 /**
-
-vragen onthouden als je terug gaat en dan zie je vorig antwoord in blauw op de knop
-
-console.log (subjects[vraagnummer].statement)
 console.log (subjects[vraagnummer].parties[1].position)
-
  */
 
 
