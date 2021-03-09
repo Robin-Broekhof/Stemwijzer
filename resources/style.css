@@ -8,7 +8,7 @@ body {
     height: 100%;
 }
   
-i{
+i {
     color: #59BDCD;
     font-size: 20px;
 }
@@ -26,48 +26,79 @@ i{
     background-color: white;
 }
 
-.main-content-top{
+.main-content-top {
     width: 1100px;
     margin:0 auto;
 }
 
-.main-content-logo{
+.main-content-logo {
     display: block;
     margin-bottom: 10px;
 }
 
-.whitespace{
+.whitespace {
     height: 50px;
 }
 
-
-.top-text1{
+.top-text1 {
     font-size: 24px;
     font-weight: bold;
 }
 
-.top-text2{
+.top-text2 {
     color: #59BDCD;
     font-size: 26px;
     font-weight: bold;
 }
-.top-text3{
+.top-text3 {
     font-size: 18px;
 }
-.top-text4{
+.top-text4 {
     font-size: 18px;
 }
 
-
-
-
-.link-span{
+.link-span {
     color: -webkit-link;
     cursor: pointer;
     text-decoration: underline;
 }
 
+.btn-balk {
+  text-align: center;
+
+}
+.btn-balk button {
+    width: 200px;
+    font-size: 18px;
+    background-color: lightgrey;
+}
+
+.btn-balk button:hover {
+    background-color: grey;
+}
+
+.btn-balk .blue-btn{
+    background-color: #3366cc;
+}
 
 
+#question-title {
+    font-size: 26px;
+    margin-left: 60px;
+    color: blue;
+    text-decoration: underline;
+}
 
+#question-element {
+    font-size: 22px;
+    margin-left: 60px;
+    width: 700px;
+}
 
+#btn-agree{
+    background-color: #00cc66;
+}
+
+#btn-disagree{
+    background-color: #800000;
+}
