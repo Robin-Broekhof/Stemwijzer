@@ -89,6 +89,7 @@ i {
     font-size: 22px;
     margin-left: 60px;
     width: 700px;
+    height: 120px;
 }
 
 #btn-agree {
@@ -100,5 +101,6 @@ i {
 }
 
 .blue-btn {
-    background-color: #003399 !important;
+    background-color: #4db8ff !important;
+    border: #000066 2px solid;
 }
