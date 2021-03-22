@@ -13,7 +13,7 @@ var partiesProCount = {
     "Nieuwe Wegen": 0,          "De Burger Beweging": 0,        "Piratenpartij": 0, 
     "Artikel 1": 0,             "Libertarische Partij": 0,      "50Plus": 0,
     "Vrijzinnige Partij": 0,    "Niet Stemmers": 0 
-};
+}
 
 
 var page = 1
@@ -30,6 +30,13 @@ function homepagedom(){        /** the js dom of the homepage page */
     document.getElementById("start").onclick = questionsdom
 
     revertClasses()
+
+
+
+
+    
+  
+
 }
 function questionsdom(){    /** the js dom of the questions page */
     document.getElementById("homepage-content").style.display = "none"
@@ -91,21 +98,45 @@ function endresult(){
     document.getElementById("onclick-button").style.display = "none"
     document.getElementById("questions-content").style.display = "none"
     alert("je bent klaar")
+    endresultdom()
     calculateResults()
 }
 
 function calculateResults(){
     var questionCheck = 0
     subjects.forEach(subject => {
-        subject.parties.forEach(partie => {
-            if(savedAnswers[questionCheck] == partie.position){
-                partiesProCount[partie.name]++
+        subject.parties.forEach(parties => {
+            if(savedAnswers[questionCheck] == parties.position){
+                partiesProCount[parties.name]++
             }
         })
         questionCheck++
     })
-    console.log(partiesProCount)
-    document.getElementById("all-parties").innerText = partiesProCount[0,1]
+
+
+
+ 
+
+    for(var key in partiesProCount){
+
+       
+        
+        console.log(partiesProCount[key])
+
+
+        var btn = document.createElement("a")
+        var btn2 = document.createElement("a")
+        var br = document.createElement("br")
+        btn.innerText = key
+        btn2.innerText = partiesProCount[key]  + "-  "
+        document.getElementById("endresult-content").appendChild(btn2);
+        document.getElementById("endresult-content").appendChild(btn);
+        document.getElementById("endresult-content").appendChild(br);
+
+
+
+
+    }
 }
 
 
