@@ -1,91 +1,115 @@
 var savedAnswers = []
 var questioncounter = 0
-/**
-console.log (subjects[vraagnummer].parties[1].position)
- */
+var loopbreaker = 0
+var partiesProCount = {}
+var showBigParties = false
+var showSecularParties = false
+const bigPartyThreshold = 1
 
-var partiesProCount = { 
-    "VVD": 0,                   "CDA": 0,                       "PVV": 0, 
-    "D66": 0,                   "GroenLinks": 0,                "SP": 0, 
-    "PvdA": 0,                  "ChristenUnie": 0,              "Partij voor de Dieren": 0, 
-    "SGP": 0,                   "DENK": 0,                      "Forum voor Democratie": 0, 
-    "Lokaal in de Kamer": 0,    "OndernemersPartij": 0,         "VNL": 0, 
-    "Nieuwe Wegen": 0,          "De Burger Beweging": 0,        "Piratenpartij": 0, 
-    "Artikel 1": 0,             "Libertarische Partij": 0,      "50Plus": 0,
-    "Vrijzinnige Partij": 0,    "Niet Stemmers": 0 
+for(i = 0; i < parties.length; i++){
+    partiesProCount[parties[i].name] = 0;
 }
 
+/**
+console.log (subjects[vraagnummer].parties[1].position)
+var partyList = parties[0].name
+ */
 
-var page = 1
 
 
 
 
-function homepagedom(){        /** the js dom of the homepage page */
+function homepageDom(){        /** the js dom of the homepage page */
     document.getElementById("homepage-content").style.display = ""
     document.getElementById("onclick-button").style.display = ""
     document.getElementById("questions-content").style.display = "none"
+    document.getElementById("options-page").style.display = "none"
     document.getElementById("endresult-content").style.display = "none"
-
-    document.getElementById("start").onclick = questionsdom
-
-    revertClasses()
-
-
-
-
-    
-  
-
+        document.getElementById("start").onclick = questionsDom
+        revertClasses()
 }
-function questionsdom(){    /** the js dom of the questions page */
+
+function questionsDom(){    /** the js dom of the questions page */
     document.getElementById("homepage-content").style.display = "none"
     document.getElementById("onclick-button").style.display = "none"
     document.getElementById("questions-content").style.display = ""
+    document.getElementById("options-page").style.display = "none"
     document.getElementById("endresult-content").style.display = "none"
-
-    loadquestions()
+        document.getElementById("btn-agree").onclick = function(){saveAnswer("pro")};
+        document.getElementById("btn-none").onclick = function(){saveAnswer("none")};
+        document.getElementById("btn-disagree").onclick = function(){saveAnswer("contra")};
+        document.getElementById("btn-skip").onclick = function(){saveAnswer("skipped")};
+        loadQuestions()
 }
-function endresultdom(){
+
+function OptionPageDom(){
     document.getElementById("homepage-content").style.display = "none"
     document.getElementById("onclick-button").style.display = "none"
     document.getElementById("questions-content").style.display = "none"
+    document.getElementById("options-page").style.display = ""
+    document.getElementById("endresult-content").style.display = "none"
+        document.getElementById("big-partie-box").onclick = bigPartyStatus
+        document.getElementById("secular-partie-box").onclick = secularStatus
+
+        
+    
+}
+
+function endresultDom(){
+    document.getElementById("homepage-content").style.display = "none"
+    document.getElementById("onclick-button").style.display = "none"
+    document.getElementById("questions-content").style.display = "none"
+    document.getElementById("options-page").style.display = "none"
     document.getElementById("endresult-content").style.display = ""
 }
 
-
-
-
-
-
-function loadquestions(){   /**loads in the question and keeps loading next question */
-    document.getElementById("question-title").innerText = subjects[questioncounter].title
-    document.getElementById("question-element").innerText = subjects[questioncounter].statement
-
-    document.getElementById("btn-agree").onclick = function(){saveanswer("pro")};
-    document.getElementById("btn-none").onclick = function(){saveanswer("none")};
-    document.getElementById("btn-disagree").onclick = function(){saveanswer("contra")};
-    document.getElementById("btn-skip").onclick = function(){saveanswer("skipped")};
-
-    document.getElementById("back").onclick = questionback
+function bigPartyStatus() {
+    var checkBox = document.getElementById("big-partie-box");
+    if (checkBox.checked == true){
+      ShowBigParties = true
+    } 
+    else {
+       ShowBigParties = false
+    }
+}
+function secularStatus() {
+    var checkBox = document.getElementById("secular-partie-box");
+    if (checkBox.checked == true){
+        showSecularParties = true
+    } 
+    else {
+        showSecularParties = false
+    }
 }
 
-function saveanswer(answer){   /**  saves the answer into a variable */
+
+
+
+
+
+
+function loadQuestions(){   /**loads in the question and keeps loading next question */
+    document.getElementById("question-title").innerText = subjects[questioncounter].title
+    document.getElementById("question-element").innerText = subjects[questioncounter].statement
+        document.getElementById("back").onclick = questionBack
+}
+
+function saveAnswer(answer){   /**  saves the answer into a variable */
     revertClasses()
     savedAnswers[questioncounter] = answer
     console.log(savedAnswers)
     questioncounter++
     if(subjects.length == savedAnswers.length){
-        endresult()
+        OptionPageDom()
     }
     else{
-        loadquestions()
+        loadQuestions()
     }
 }
 
-function questionback(){    /** functionality of the back button */
+function questionBack(){    /** functionality of the back button */
     if(questioncounter === 0){
-        homepagedom()
+        homepageDom()
     }
     else{
         questioncounter--
@@ -93,16 +117,15 @@ function questionback(){    /** functionality of the back button */
     }
 }
 
-function endresult(){
+function endResult(){       /**show result after all questions has been answered */
     document.getElementById("homepage-content").style.display = "none"
     document.getElementById("onclick-button").style.display = "none"
     document.getElementById("questions-content").style.display = "none"
-    alert("je bent klaar")
-    endresultdom()
-    calculateResults()
+        endresultDom()
+        calculateResults()
 }
 
-function calculateResults(){
+function calculateResults(){    /** calculate for each party how much you have scored */
     var questionCheck = 0
     subjects.forEach(subject => {
         subject.parties.forEach(parties => {
@@ -114,34 +137,29 @@ function calculateResults(){
     })
 
 
+    console.log(ShowBigParties)
 
- 
+    
+    
+    
 
     for(var key in partiesProCount){
 
-       
+        /*      only shows 3 results
+        if(loopbreaker == 3){
+            break
+        }
+       */
+    
+            var resultElement = document.createElement("p")
+            resultElement.innerText = key + ": " + partiesProCount[key]
+            document.getElementById("endresult-content").appendChild(resultElement);
+      
+
         
-        console.log(partiesProCount[key])
-
-
-        var btn = document.createElement("a")
-        var btn2 = document.createElement("a")
-        var br = document.createElement("br")
-        btn.innerText = key
-        btn2.innerText = partiesProCount[key]  + "-  "
-        document.getElementById("endresult-content").appendChild(btn2);
-        document.getElementById("endresult-content").appendChild(btn);
-        document.getElementById("endresult-content").appendChild(br);
-
-
-
-
     }
+    
 }
-
-
-
-
 
 
 
@@ -189,13 +207,13 @@ function rememberQuestion(){    /** functionality of going back a page and the p
         document.getElementById("btn-disagree").className = ""
         document.getElementById("btn-skip").className = "blue-btn"
     }
-    loadquestions()
+    loadQuestions()
 }
-function revertClasses(){
-document.getElementById("btn-agree").className = ""
-document.getElementById("btn-none").className = ""
-document.getElementById("btn-disagree").className = ""
-document.getElementById("btn-skip").className = ""
+function revertClasses(){   /** reverts buttons classes to none */
+    document.getElementById("btn-agree").className = ""
+    document.getElementById("btn-none").className = ""
+    document.getElementById("btn-disagree").className = ""
+    document.getElementById("btn-skip").className = ""
 }
 
-homepagedom()
+homepageDom()
