@@ -5,15 +5,11 @@ var partiesProCount = {}
 var showBigParties = false
 var showSecularParties = false
 const bigPartyThreshold = 1
-
-for(i = 0; i < parties.length; i++){
+for(i = 0; i < parties.length; i++){/** get every party name from jason and set 0 as value */
     partiesProCount[parties[i].name] = 0;
 }
 
-/**
-console.log (subjects[vraagnummer].parties[1].position)
-var partyList = parties[0].name
- */
+
 
 
 
@@ -28,7 +24,6 @@ function homepageDom(){        /** the js dom of the homepage page */
         document.getElementById("start").onclick = questionsDom
         revertClasses()
 }
-
 function questionsDom(){    /** the js dom of the questions page */
     document.getElementById("homepage-content").style.display = "none"
     document.getElementById("onclick-button").style.display = "none"
@@ -41,7 +36,6 @@ function questionsDom(){    /** the js dom of the questions page */
         document.getElementById("btn-skip").onclick = function(){saveAnswer("skipped")};
         loadQuestions()
 }
-
 function OptionPageDom(){
     document.getElementById("homepage-content").style.display = "none"
     document.getElementById("onclick-button").style.display = "none"
@@ -50,8 +44,28 @@ function OptionPageDom(){
     document.getElementById("endresult-content").style.display = "none"
         document.getElementById("big-partie-box").onclick = bigPartyStatus
         document.getElementById("secular-partie-box").onclick = secularStatus
+        document.getElementById("final-page-button").onclick = endResult
 
+        for(i = 0; i < subjects.length; i++){
+            var j = i + 1
+            var questionsElement = document.createElement("label")
+            questionsElement.innerText = j + ". " + subjects[i].title
+            document.getElementById("questions-checkboxes").appendChild(questionsElement)
+
+            var questionCheckbox = document.createElement("input")
+            questionCheckbox.type = "checkbox"
+            document.getElementById("questions-checkboxes").appendChild(questionCheckbox);
+            document.getElementById("questions-checkboxes").appendChild(document.createElement("br"));
+
+        }
         
+
+
+        /**
+         * vragen tonen met for loopen door alle vragen en checkbox toevoegen , invoegen in een nieuw div 
+         * wat styling om het bij elkaar te houden
+         * 
+         */
     
 }
 
@@ -81,8 +95,6 @@ function secularStatus() {
         showSecularParties = false
     }
 }
-
-
 
 
 
@@ -137,7 +149,6 @@ function calculateResults(){    /** calculate for each party how much you have s
     })
 
 
-    console.log(ShowBigParties)
 
     
     
