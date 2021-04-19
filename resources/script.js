@@ -4,7 +4,7 @@ var loopbreaker = 0
 var partiesProCount = {}
 var showBigParties = false
 var showSecularParties = false
-const bigPartyThreshold = 1
+const bigPartyThreshold = 5
 for(i = 0; i < parties.length; i++){/** get every party name from jason and set 0 as value */
     partiesProCount[parties[i].name] = 0;
 }
@@ -51,12 +51,10 @@ function OptionPageDom(){
             var questionsElement = document.createElement("label")
             questionsElement.innerText = j + ". " + subjects[i].title
             document.getElementById("questions-checkboxes").appendChild(questionsElement)
-
             var questionCheckbox = document.createElement("input")
             questionCheckbox.type = "checkbox"
             document.getElementById("questions-checkboxes").appendChild(questionCheckbox);
             document.getElementById("questions-checkboxes").appendChild(document.createElement("br"));
-
         }
         
 
@@ -80,10 +78,10 @@ function endresultDom(){
 function bigPartyStatus() {
     var checkBox = document.getElementById("big-partie-box");
     if (checkBox.checked == true){
-      ShowBigParties = true
+      showBigParties = true
     } 
     else {
-       ShowBigParties = false
+       showBigParties = false
     }
 }
 function secularStatus() {
@@ -148,26 +146,46 @@ function calculateResults(){    /** calculate for each party how much you have s
         questionCheck++
     })
 
-
-
-    
-    
-    
-
+    int = 0;
     for(var key in partiesProCount){
-
-        /*      only shows 3 results
-        if(loopbreaker == 3){
-            break
+        if(showBigParties == true && showSecularParties == false){
+            if(bigPartyThreshold <= parties[int].size ){
+                var resultElement = document.createElement("p")
+                resultElement.innerText = key + ": " + partiesProCount[key]
+                document.getElementById("endresult-content").appendChild(resultElement);
+                int++
+            }
+            else{
+                int++
+            }
         }
-       */
-    
+        if(showSecularParties == true && showBigParties == false){
+            if(parties[int].secular == true){
+                var resultElement = document.createElement("p")
+                resultElement.innerText = key + ": " + partiesProCount[key]
+                document.getElementById("endresult-content").appendChild(resultElement);
+                int++
+            }
+            else{
+                int++
+            }
+        }
+        if(showSecularParties == true && showBigParties == true){
+            if(parties[int].secular == true && bigPartyThreshold <= parties[int].size){
+                var resultElement = document.createElement("p")
+                resultElement.innerText = key + ": " + partiesProCount[key]
+                document.getElementById("endresult-content").appendChild(resultElement);
+                int++
+            }
+            else{
+                int++
+            }
+        }
+        if(showSecularParties == false && showBigParties == false){
             var resultElement = document.createElement("p")
             resultElement.innerText = key + ": " + partiesProCount[key]
             document.getElementById("endresult-content").appendChild(resultElement);
-      
-
-        
+        }
     }
     
 }
