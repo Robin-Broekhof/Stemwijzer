@@ -1,14 +1,14 @@
 var savedAnswers = []
+var ExtraWeightedQuestions = []
 var questioncounter = 0
-var loopbreaker = 0
-var partiesProCount = {}
 var showBigParties = false
 var showSecularParties = false
-const bigPartyThreshold = 5
-for(i = 0; i < parties.length; i++){/** get every party name from jason and set 0 as value */
+var partiesProCount = {}
+for(i = 0; i < parties.length; i++){/** get every party name from json and set 0 as value */
     partiesProCount[parties[i].name] = 0;
 }
 
+const bigPartyThreshold = 5
 
 
 
@@ -52,9 +52,13 @@ function OptionPageDom(){
             questionsElement.innerText = j + ". " + subjects[i].title
             document.getElementById("questions-checkboxes").appendChild(questionsElement)
             var questionCheckbox = document.createElement("input")
+
             questionCheckbox.type = "checkbox"
+            questionCheckbox.id = "question" + i
+
             document.getElementById("questions-checkboxes").appendChild(questionCheckbox);
             document.getElementById("questions-checkboxes").appendChild(document.createElement("br"));
+            
         }
         
 
@@ -136,18 +140,62 @@ function endResult(){       /**show result after all questions has been answered
 }
 
 function calculateResults(){    /** calculate for each party how much you have scored */
+
     var questionCheck = 0
+
+    for(i = 0; i < subjects.length; i++){
+        var questions = document.getElementById("question" + i)
+
+        if (questions.checked == true){
+            ExtraWeightedQuestions.push(i)
+        } 
+        else{
+              
+        }
+    }
+
     subjects.forEach(subject => {
+
+
+
+        if(questionCheck == ExtraWeightedQuestions[questionCheck]){
+        subject.parties.forEach(parties => {
+            if(savedAnswers[questionCheck] == parties.position){
+                partiesProCount[parties.name]++
+                partiesProCount[parties.name]++
+            }
+        })
+        questionCheck++
+    }
+    else{
         subject.parties.forEach(parties => {
             if(savedAnswers[questionCheck] == parties.position){
                 partiesProCount[parties.name]++
             }
         })
         questionCheck++
+    }
+
+
+
+
+
     })
 
-    int = 0;
-    for(var key in partiesProCount){
+
+
+   
+
+
+
+
+    var int = 0;
+    for(var key in partiesProCount){/** will print the results on the screen and will check if options were selected to show parties */
+
+        var answerKey = partiesProCount[key]
+        var newAnswerKey = Math.round(answerKey / 30 * 100)
+
+
         if(showBigParties == true && showSecularParties == false){
             if(bigPartyThreshold <= parties[int].size ){
                 var resultElement = document.createElement("p")
@@ -162,7 +210,7 @@ function calculateResults(){    /** calculate for each party how much you have s
         if(showSecularParties == true && showBigParties == false){
             if(parties[int].secular == true){
                 var resultElement = document.createElement("p")
-                resultElement.innerText = key + ": " + partiesProCount[key]
+                resultElement.innerText = key + ": " + newAnswerKey + "%"
                 document.getElementById("endresult-content").appendChild(resultElement);
                 int++
             }
@@ -173,7 +221,7 @@ function calculateResults(){    /** calculate for each party how much you have s
         if(showSecularParties == true && showBigParties == true){
             if(parties[int].secular == true && bigPartyThreshold <= parties[int].size){
                 var resultElement = document.createElement("p")
-                resultElement.innerText = key + ": " + partiesProCount[key]
+                resultElement.innerText = key + ": " + newAnswerKey + "%"
                 document.getElementById("endresult-content").appendChild(resultElement);
                 int++
             }
@@ -183,15 +231,18 @@ function calculateResults(){    /** calculate for each party how much you have s
         }
         if(showSecularParties == false && showBigParties == false){
             var resultElement = document.createElement("p")
-            resultElement.innerText = key + ": " + partiesProCount[key]
+            resultElement.innerText = key + ": " + newAnswerKey + "%"
+
+
             document.getElementById("endresult-content").appendChild(resultElement);
+
+
+
         }
+
     }
     
 }
-
-
-
 
 
 
