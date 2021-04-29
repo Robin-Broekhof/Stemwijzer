@@ -1,3 +1,20 @@
+const bigPartyThreshold = 5
+const homepageDiv = document.getElementById("homepage-content")
+const questionpageDiv = document.getElementById("questions-content")
+const optionpageDiv = document.getElementById("options-content")
+const resultpageDiv = document.getElementById("endresult-content")
+const agreeButton = document.getElementById("btn-agree")
+const noneButton = document.getElementById("btn-none")
+const disagreeButton = document.getElementById("btn-disagree")
+const skipButton = document.getElementById("btn-skip")
+const questionBox = document.getElementById("questions-checkboxes")
+const startButton = document.getElementById("start")
+const bigPartyButton = document.getElementById("big-partie-box")
+const secularPartyButton = document.getElementById("secular-partie-box")
+const finalPageButton = document.getElementById("final-page-button")
+const questionTitle = document.getElementById("question-title")
+const questionElement = document.getElementById("question-element")
+const backButton = document.getElementById("back")
 var savedAnswers = []
 var ExtraWeightedQuestions = []
 var questioncounter = 0
@@ -5,99 +22,46 @@ var amountOfWeight = 30
 var showBigParties = false
 var showSecularParties = false
 var partiesProCount = {}
-var partiesProCountSorted = {}
 for(i = 0; i < parties.length; i++){/** get every party name from json and set 0 as value */
     partiesProCount[parties[i].name] = 0;
 }
 
-const bigPartyThreshold = 5
-
-
-
-
 
 function homepageDom(){        /** the js dom of the homepage page */
-    document.getElementById("homepage-content").style.display = ""
-    document.getElementById("onclick-button").style.display = ""
-    document.getElementById("questions-content").style.display = "none"
-    document.getElementById("options-page").style.display = "none"
-    document.getElementById("endresult-content").style.display = "none"
-    document.getElementById("start").onclick = questionsDom
+    revertDivDisplays("homepage")
+    startButton.onclick = questionsDom
     revertClasses()
-
-    
 }
 function questionsDom(){    /** the js dom of the questions page */
-    document.getElementById("homepage-content").style.display = "none"
-    document.getElementById("onclick-button").style.display = "none"
-    document.getElementById("questions-content").style.display = ""
-    document.getElementById("options-page").style.display = "none"
-    document.getElementById("endresult-content").style.display = "none"
-    document.getElementById("btn-agree").onclick = function(){saveAnswer("pro")};
-    document.getElementById("btn-none").onclick = function(){saveAnswer("none")};
-    document.getElementById("btn-disagree").onclick = function(){saveAnswer("contra")};
-    document.getElementById("btn-skip").onclick = function(){saveAnswer("skipped")};
+    revertDivDisplays("questionpage")
+    agreeButton.onclick = function(){saveAnswer("pro")};
+    noneButton.onclick = function(){saveAnswer("none")};
+    disagreeButton.onclick = function(){saveAnswer("contra")};
+    skipButton.onclick = function(){saveAnswer("skipped")};
     loadQuestions()
 }
 function OptionPageDom(){
-    document.getElementById("homepage-content").style.display = "none"
-    document.getElementById("onclick-button").style.display = "none"
-    document.getElementById("questions-content").style.display = "none"
-    document.getElementById("options-page").style.display = ""
-    document.getElementById("endresult-content").style.display = "none"
-    document.getElementById("big-partie-box").onclick = bigPartyStatus
-    document.getElementById("secular-partie-box").onclick = secularStatus
-    document.getElementById("final-page-button").onclick = endResult
+    revertDivDisplays("optionpage")
+    bigPartyButton.onclick = bigPartyStatus
+    secularPartyButton.onclick = secularStatus
+    finalPageButton.onclick = endResult
     for(i = 0; i < subjects.length; i++){
         var j = i + 1
         var questionsElement = document.createElement("label")
         questionsElement.innerText = j + ". " + subjects[i].title
-        document.getElementById("questions-checkboxes").appendChild(questionsElement)
+        questionBox.appendChild(questionsElement)
         var questionCheckbox = document.createElement("input")
         questionCheckbox.type = "checkbox"
         questionCheckbox.id = "question" + i
-        document.getElementById("questions-checkboxes").appendChild(questionCheckbox);
-        document.getElementById("questions-checkboxes").appendChild(document.createElement("br"));
+        questionBox.appendChild(questionCheckbox);
+        questionBox.appendChild(document.createElement("br"));
     }
 }
-
-function endresultDom(){
-    document.getElementById("homepage-content").style.display = "none"
-    document.getElementById("onclick-button").style.display = "none"
-    document.getElementById("questions-content").style.display = "none"
-    document.getElementById("options-page").style.display = "none"
-    document.getElementById("endresult-content").style.display = ""
-}
-
-function bigPartyStatus() {
-    var checkBox = document.getElementById("big-partie-box");
-    if (checkBox.checked == true){
-      showBigParties = true
-    } 
-    else {
-       showBigParties = false
-    }
-}
-function secularStatus() {
-    var checkBox = document.getElementById("secular-partie-box");
-    if (checkBox.checked == true){
-        showSecularParties = true
-    } 
-    else {
-        showSecularParties = false
-    }
-}
-
-
-
-
-
 function loadQuestions(){   /**loads in the question and keeps loading next question */
-    document.getElementById("question-title").innerText = subjects[questioncounter].title
-    document.getElementById("question-element").innerText = subjects[questioncounter].statement
-        document.getElementById("back").onclick = questionBack
+    questionTitle.innerText = subjects[questioncounter].title
+    questionElement.innerText = subjects[questioncounter].statement
+    backButton.onclick = questionBack
 }
-
 function saveAnswer(answer){   /**  saves the answer into a variable */
     revertClasses()
     savedAnswers[questioncounter] = answer
@@ -109,7 +73,6 @@ function saveAnswer(answer){   /**  saves the answer into a variable */
         loadQuestions()
     }
 }
-
 function questionBack(){    /** functionality of the back button */
     if(questioncounter === 0){
         homepageDom()
@@ -119,24 +82,34 @@ function questionBack(){    /** functionality of the back button */
         rememberQuestion()
     }
 }
-
 function endResult(){       /**show result after all questions has been answered */
-    document.getElementById("homepage-content").style.display = "none"
-    document.getElementById("onclick-button").style.display = "none"
-    document.getElementById("questions-content").style.display = "none"
-        endresultDom()
-        calculateResults()
+    revertDivDisplays("resultpage")
+    calculateResults()
 }
-
+function bigPartyStatus() {
+    var checkBox = bigPartyButton
+    if (checkBox.checked == true){
+      showBigParties = true
+    } 
+    else {
+       showBigParties = false
+    }
+}
+function secularStatus() {
+    var checkBox = secularPartyButton
+    if (checkBox.checked == true){
+        showSecularParties = true
+    } 
+    else {
+        showSecularParties = false
+    }
+}
 function calculateResults(){    /** calculate for each party how much you have scored */
     var questionCheck = 0
     for(i = 0; i < subjects.length; i++){
         var questions = document.getElementById("question" + i)
         if (questions.checked == true){
             ExtraWeightedQuestions.push(i)
-        } 
-        else{
-              
         }
     }
     subjects.forEach(subject => {
@@ -158,100 +131,92 @@ function calculateResults(){    /** calculate for each party how much you have s
         questionCheck++
     }
     })
-    
-
-
-
-    var partiesProCountSorted = Object.entries(partiesProCount).sort((a, b) => b[1] - a[1]).reduce((_sortedObj, [k,v]) => ({
-        ..._sortedObj, [k]: v}), {})
-    amountOfWeight = amountOfWeight + ExtraWeightedQuestions.length
+    showResults()
+}
+function showResults(){
     var int = 0;
+    amountOfWeight = amountOfWeight + ExtraWeightedQuestions.length
+    var partiesProCountSorted = Object.entries(partiesProCount).sort((a, b) => b[1] - a[1]).reduce((_sortedObj, [k,v]) => ({..._sortedObj, [k]: v}), {})
+        
     for(var key in partiesProCountSorted){/** will print the results on the screen and will check if options were selected to show parties */
         var answerKey = partiesProCountSorted[key]
         var newAnswerKey = Math.round(answerKey / amountOfWeight * 100)
         if(showBigParties == true && showSecularParties == false){
             if(bigPartyThreshold <= parties[int].size ){
-                var resultElement = document.createElement("p")
-                resultElement.innerText = key + ": " + newAnswerKey + "%"
-                document.getElementById("endresult-content").appendChild(resultElement);
-                int++
+                createResultElements(1)
             }
             else{
                 int++
             }
         }
-        if(showSecularParties == true && showBigParties == false){
+        else if(showSecularParties == true && showBigParties == false){
             if(parties[int].secular == true){
-                var resultElement = document.createElement("p")
-                resultElement.innerText = key + ": " + newAnswerKey + "%"
-                document.getElementById("endresult-content").appendChild(resultElement);
-                int++
+                createResultElements(1)
             }
             else{
                 int++
             }
         }
-        if(showSecularParties == true && showBigParties == true){
+        else if(showSecularParties == true && showBigParties == true){
             if(parties[int].secular == true && bigPartyThreshold <= parties[int].size){
-                var resultElement = document.createElement("p")
-                resultElement.innerText = key + ": " + newAnswerKey + "%"
-                document.getElementById("endresult-content").appendChild(resultElement);
-                int++
+                createResultElements(1)
             }
             else{
                 int++
             }
         }
-        if(showSecularParties == false && showBigParties == false){
+        else if(showSecularParties == false && showBigParties == false){
+            createResultElements(0)
+        }
+        function createResultElements(option){
             var resultElement = document.createElement("p")
             resultElement.innerText = key + ": " + newAnswerKey + "%"
-            document.getElementById("endresult-content").appendChild(resultElement);
+            resultpageDiv.appendChild(resultElement);
+            if(option == 1){
+                int++
+            }
         }
     }
 }
-
-
-
-
-
-
-
-
-
 function rememberQuestion(){    /** functionality of going back a page and the previous answers button is blue */
     var question = savedAnswers[questioncounter]
-    
+    revertClasses()
     if(question == "pro"){
-        document.getElementById("btn-agree").className = "blue-btn"
-        document.getElementById("btn-none").className = ""
-        document.getElementById("btn-disagree").className = ""
-        document.getElementById("btn-skip").className = ""
+        agreeButton.className = "blue-btn"
     }
-    if(question == "none"){
-        document.getElementById("btn-agree").className = ""
-        document.getElementById("btn-none").className = "blue-btn"
-        document.getElementById("btn-disagree").className = ""
-        document.getElementById("btn-skip").className = ""
+    else if(question == "none"){
+        noneButton.className = "blue-btn"
     }
-    if(question == "contra"){
-        document.getElementById("btn-agree").className = ""
-        document.getElementById("btn-none").className = ""
-        document.getElementById("btn-disagree").className = "blue-btn"
-        document.getElementById("btn-skip").className = ""
+    else if(question == "contra"){
+        disagreeButton.className = "blue-btn"
     }
-    if(question == "skipped"){
-        document.getElementById("btn-agree").className = ""
-        document.getElementById("btn-none").className = ""
-        document.getElementById("btn-disagree").className = ""
-        document.getElementById("btn-skip").className = "blue-btn"
+    else if(question == "skipped"){
+        skipButton.className = "blue-btn"
     }
     loadQuestions()
 }
 function revertClasses(){   /** reverts buttons classes to none */
-    document.getElementById("btn-agree").className = ""
-    document.getElementById("btn-none").className = ""
-    document.getElementById("btn-disagree").className = ""
-    document.getElementById("btn-skip").className = ""
+    agreeButton.className = ""
+    noneButton.className = ""
+    disagreeButton.className = ""
+    skipButton.className = ""
 }
-
+function revertDivDisplays(page){
+    homepageDiv.style.display = "none"
+    questionpageDiv.style.display = "none"
+    optionpageDiv.style.display = "none"
+    resultpageDiv.style.display = "none"
+    if(page == "homepage"){
+        homepageDiv.style.display = ""
+    }
+    else if(page == "questionpage"){
+        questionpageDiv.style.display = ""
+    }
+    else if(page == "optionpage"){
+        optionpageDiv.style.display = ""
+    }
+    else if(page == "resultpage"){
+        resultpageDiv.style.display = ""
+    }
+}
 homepageDom()
